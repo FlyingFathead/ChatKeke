@@ -18,7 +18,9 @@ ChatKeke is a straightforward and easy-to-deploy web chat interface (front+back 
 
 # Usage
 
-To deploy ChatKeke, simply clone the repository, install the required Python packages, and run the backend server script. The frontend can be opened in any web browser and will connect to the backend server to send and receive chat messages. There are examples included on how to set up the backend either as a local or remote instance. 
+To deploy ChatKeke, simply clone the repository, install the required Python packages, and run the backend server script. The frontend can be opened in any web browser and will connect to the backend server to send and receive chat messages. There are examples included on how to set up the backend either as a local or remote instance.
+
+**NOTE:** although quite easy and quick to deploy, ChatKeke isn't necessarily the most secure way to set up a web interface for your GPT-2 model; it's highly recommended to use this for small scale testbed purposes only. Don't run anything too serious on it! No warranty, no guarantees.
 
 # Future Work
 
