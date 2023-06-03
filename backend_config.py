@@ -30,3 +30,9 @@ model.py
 chat_prefix = '\n|kysymys|'
 chat_suffix = '\n|vastaus|'
 breakpoints = ['\n','|','|v','|k','|ky','|kys','|kysy', '|kysymys|', '|vastaus|', '---', '###', '|' '<|', '<|endoftext|>']  # Add any other desired breakpoints here
+
+# maximum chat context message history memory
+context_memory_length = 3  # Make sure this is an integer
+
+# what to answer if the answer is empty
+answer_on_empty = "Anteeksi, nyt en ymmärtänyt. Voisitko täsmentää?"
