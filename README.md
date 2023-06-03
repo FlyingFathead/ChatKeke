@@ -22,9 +22,11 @@ To deploy ChatKeke, simply clone the repository, install the required Python pac
 
 **NOTE:** although quite easy and quick to deploy, ChatKeke isn't necessarily the most secure way to set up a web interface for your GPT-2 model; it's highly recommended to use this for small scale testbed purposes only. Don't run anything too serious on it! No warranty, no guarantees.
 
-# Future Work
+# Future Work / TODO
 
 ChatKeke is open to contributions and improvements. Potential areas of development include enhancing the user interface, optimizing the backend server, and integrating with other AI models or services.
+
+- Context memory and other chat mode tweaks are still to be implemented, as well as a potential hyperparameter user panel, etc.
 
 # License
 
