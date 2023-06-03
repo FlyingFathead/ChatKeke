@@ -1,5 +1,5 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.309 / written by FlyingFathead & ChaosWhisperer
+#  v1.310 / written by FlyingFathead & ChaosWhisperer
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -113,19 +113,19 @@ def generate_text():
     logging.info('User input: %s', input_text)  # Log the user input
 
     context_tokens = enc.encode(input_text)
-    out = sess.run(output, feed_dict={
-        context: [context_tokens]
-    })[:, len(context_tokens):]
-    output_text = enc.decode(out[0])
-    for breakpoint in sorted(breakpoints, key=len):
-        breakpoint_index = output_text.find(breakpoint)
-        if breakpoint_index >= 0:
-            output_text = output_text[:breakpoint_index]
-            break
+    output_text = ""
 
-    # If the model's response is empty, don't add it to the chat history and don't return it to the user
-    if output_text.strip() == "":
-        return jsonify({'output': backend_config.answer_on_empty})
+    # Loop until the model generates a non-empty response
+    while output_text.strip() == "":
+        out = sess.run(output, feed_dict={
+            context: [context_tokens]
+        })[:, len(context_tokens):]
+        output_text = enc.decode(out[0])
+        for breakpoint in sorted(breakpoints, key=len):
+            breakpoint_index = output_text.find(breakpoint)
+            if breakpoint_index >= 0:
+                output_text = output_text[:breakpoint_index]
+                break
 
     logging.info('Model output: %s', output_text)  # Log the model output
 
