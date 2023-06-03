@@ -1,5 +1,5 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.306 / written by FlyingFathead & ChaosWhisperer
+#  v1.309 / written by FlyingFathead & ChaosWhisperer
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -9,6 +9,10 @@ import os
 import glob
 import numpy as np
 import json
+import logging
+
+# chatlog
+logging.basicConfig(filename='chat.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
 # see backend_config.py for directory configuration
 import backend_config
@@ -17,6 +21,8 @@ model_py_dir = backend_config.model_py_dir
 chat_prefix = backend_config.chat_prefix
 chat_suffix = backend_config.chat_suffix
 breakpoints = backend_config.breakpoints
+answer_on_empty = backend_config.answer_on_empty
+context_memory_length = backend_config.context_memory_length  # Number of interactions to remember
 
 sys.path.insert(0, model_py_dir)  # Add the python files directory to the system path
 
@@ -27,7 +33,6 @@ tf.compat.v1.disable_eager_execution()
 app = Flask(__name__)
 
 # Enable CORS for all routes
-# CORS(app, resources={r"/api/*": {"origins": ["http://hors.land", "https://hors.land"]}})
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 model_files = glob.glob(os.path.join(model_files_dir, 'model-*'))
@@ -67,6 +72,8 @@ with tf.Graph().as_default():
     ckpt = tf.train.latest_checkpoint(model_files_dir)
     saver.restore(sess, ckpt)
 
+chat_history = []  # Initialize chat history
+
 @app.route('/')
 def home():
     print("Current working directory:", os.getcwd())
@@ -95,8 +102,16 @@ def parse_response(output_text):
 @app.route('/api', methods=['POST'])
 def generate_text():
     global sess  # Add this line to access the global session variable
+    global chat_history  # Add this line to access the global chat history variable
     data = request.get_json()
     input_text = chat_prefix + data['input'] + chat_suffix
+
+    # Prepend chat history
+    for history in chat_history:
+        input_text = history + input_text
+
+    logging.info('User input: %s', input_text)  # Log the user input
+
     context_tokens = enc.encode(input_text)
     out = sess.run(output, feed_dict={
         context: [context_tokens]
@@ -107,6 +122,20 @@ def generate_text():
         if breakpoint_index >= 0:
             output_text = output_text[:breakpoint_index]
             break
+
+    # If the model's response is empty, don't add it to the chat history and don't return it to the user
+    if output_text.strip() == "":
+        return jsonify({'output': backend_config.answer_on_empty})
+
+    logging.info('Model output: %s', output_text)  # Log the model output
+
+    # Add user's input and bot's response to chat history
+    chat_history.append(chat_prefix + data['input'] + chat_suffix)
+    chat_history.append(chat_prefix + output_text + chat_suffix)
+
+    # Limit the chat history to the last n interactions
+    chat_history = chat_history[-2*context_memory_length:]
+
     return jsonify({'output': output_text})
 
 @app.after_request
