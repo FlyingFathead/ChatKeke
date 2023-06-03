@@ -1,4 +1,4 @@
-model_files_dir = '/home/kahel/NeuralNetwork/vzgpt/__incheck/'
+model_files_dir = './model_data_files/'
 
 """
 Above: Set the directory path for the model's files.
@@ -15,7 +15,7 @@ encoder.json
 hparams.json
 """
 
-model_py_dir = '/home/kahel/NeuralNetwork/fennoweb/model_py_files/'
+model_py_dir = './model_py_files/'
 
 """
 Above: Set the directory path for the model's python files
