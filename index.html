@@ -124,20 +124,20 @@
     }
 
     .chat-form input[type="text"] {
-    flex-grow: 1;
-    margin-right: 10px;
-    width: 350px; /* Add this line */
+      flex-grow: 1;
+      margin-right: 10px;
+      width: 350px; /* Add this line */
     }
 
     .send-button {
-    border: none;
-    background-color: #1D9BF0;
-    cursor: pointer;
-    color: #FFF;
-    font-size: 18px;
-    padding: 5px; /* Adjust this value if necessary */
-    border-radius: 5px;
-    width: 50px; /* Add this line */
+      border: none;
+      background-color: #1D9BF0;
+      cursor: pointer;
+      color: #FFF;
+      font-size: 18px;
+      padding: 5px; /* Adjust this value if necessary */
+      border-radius: 5px;
+      width: 50px; /* Add this line */
     }
 
     .send-button::before {
@@ -147,32 +147,33 @@
     }
 
     #loading {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      margin-bottom: 10px; /* Add this line */
     }
 
     .dot {
-    width: 8px;
-    height: 8px;
-    margin: 0 5px;
-    background-color: #1D9BF0;
-    border-radius: 50%;
-    animation: loading 1.2s infinite;
+      width: 8px;
+      height: 8px;
+      margin: 0 5px;
+      background-color: #1D9BF0;
+      border-radius: 50%;
+      animation: loading 1.2s infinite;
     }
 
     .dot:nth-child(2) {
-    animation-delay: 0.2s;
+      animation-delay: 0.2s;
     }
 
     .dot:nth-child(3) {
-    animation-delay: 0.4s;
+      animation-delay: 0.4s;
     }
 
     @keyframes loading {
-    0% { transform: scale(0); }
-    50% { transform: scale(1); }
-    100% { transform: scale(0); }
+      0% { transform: scale(0); }
+      50% { transform: scale(1); }
+      100% { transform: scale(0); }
     }
 
   </style>
@@ -189,6 +190,12 @@
       <div class="dot"></div>
     </div>
   </div>
+
+  <div id="response-loading" style="width: 400px; display: none; text-align: center; margin-bottom: 10px;">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
   
   <form id="form" class="chat-form" style="margin-bottom: 20px;">
     <input type="text" id="input" name="input" placeholder="Kirjoita viestisi...">
@@ -198,69 +205,78 @@
   <script>
     // Function to create and display a chat message
     function createChatMessage(sender, message) {
-    const chatMessages = document.getElementById('chat-messages');
-    const chatMessage = document.createElement('div');
-    chatMessage.className = 'chat-message';
+      const chatMessages = document.getElementById('chat-messages');
+      const chatMessage = document.createElement('div');
+      chatMessage.className = 'chat-message';
 
-    if (sender === 'AI') {
+      if (sender === 'AI') {
         chatMessage.classList.add('ai'); // Add the 'ai' class
         chatMessage.innerHTML = `
-            <span class="${sender}">
+          <span class="${sender}">
             <div class="avatar">🤖</div>
-            </span>
-            <div class="speech-bubble">${message}</div>`;
-        } else {
+          </span>
+          <div class="speech-bubble">${message}</div>`;
+      } else {
         chatMessage.innerHTML = `
-            <span class="${sender}">
+          <span class="${sender}">
             <div class="avatar">&#x1F464;</div>
             <div class="speech-bubble user-bubble">${message}</div>
-            </span>`;
-        }
+          </span>`;
+      }
 
-    chatMessages.appendChild(chatMessage);
-    window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
+      chatMessages.appendChild(chatMessage);
+      window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
     }
 
     // Event listener for the form submission
     document.getElementById('form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  const input = document.getElementById('input').value;
+      event.preventDefault();
+      const input = document.getElementById('input').value;
 
-  // Display user's message
-  createChatMessage('käyttäjä', input);
+      // Display user's message
+      createChatMessage('käyttäjä', input);
 
-  // Show loading animation
-  document.getElementById('loading').style.display = 'flex';
+      // Show loading animation
+      document.getElementById('loading').style.display = 'flex';
 
-  // Send user's message to the backend
+      // Send user's message to the backend
 
-  // MODIFY YOUR OWN DOMAIN'S BACKEND ADDRESS BELOW.
-  // It's always recommended to use "https://" if you've got your domain root certs.
-  fetch('https://domain.com/api', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ input: input }),
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Hide loading animation
-      document.getElementById('loading').style.display = 'none';
+      // MODIFY YOUR OWN DOMAIN'S BACKEND ADDRESS BELOW.
+      // It's always recommended to use "https://" if you've got your domain root certs.
+      fetch('https://domain.com/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input: input }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Hide loading animation
+          document.getElementById('loading').style.display = 'none';
 
-      // Display bot's response
-      createChatMessage('AI', data.output);
-    })
-    .catch(error => {
-      console.error('Error:', error);
+          // Show response loading text
+          document.getElementById('response-loading').style.display = 'block';
+
+          // Delay displaying bot's response for demonstration purposes
+          setTimeout(() => {
+            // Hide response loading text
+            document.getElementById('response-loading').style.display = 'none';
+
+            // Display bot's response
+            createChatMessage('AI', data.output);
+          }, 1500);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+      // Clear the input field
+      document.getElementById('input').value = '';
     });
-
-  // Clear the input field
-  document.getElementById('input').value = '';
-});
   </script>
 
-<footer style="margin-top: 20px; text-align: center; padding: 10px; background-color: #162D44; color: #fff;">
+  <footer style="margin-top: 20px; text-align: center; padding: 10px; background-color: #162D44; color: #fff;">
     <p>© 2023 ChatKeke. All rights reserved.</p>
   </footer>
 
