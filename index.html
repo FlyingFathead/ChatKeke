@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Styles for the page */
+    body {
+      background-color: #162D44;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #162D44, #1D9BF0);
+      font-family: 'Arial', sans-serif;
+      overflow-y: scroll; /* Add this line */
+      scroll-behavior: smooth; /* Add this line */
+    }
+
+    .avatar {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Styles for the title */
+    .title {
+      background: -webkit-linear-gradient(left, #162D44, #1D9BF0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 5em;
+      font-weight: bold;
+      margin-bottom: 50px;
+      text-shadow: 0 0 10px #1D9BF0, 0 0 20px #1D9BF0, 0 0 30px #1D9BF0, 0 0 40px #1D9BF0;
+      text-stroke: 1px white;
+      -webkit-text-stroke: 1px white;
+    }
+
+    /* Styles for the chat container */
+    .chat-container {
+      padding: 10px;
+      width: 400px;
+      margin: 20px auto; /* Add margin property */
+      max-height: calc(100vh - 40px); /* Adjust max-height property */
+      overflow-y: auto; /* Change overflow-y property to auto */
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: #1D9BF0 #DCEAF8; /* Firefox */
+    }
+
+    /* Styles for the scrollbar in Webkit browsers */
+    .chat-container::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    .chat-container::-webkit-scrollbar-track {
+      background: #DCEAF8;
+    }
+
+    .chat-container::-webkit-scrollbar-thumb {
+      background-color: #1D9BF0;
+      border: 3px solid #DCEAF8;
+    }
+
+    /* Styles for chat messages */
+    .chat-message {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .chat-message .user {
+      font-weight: bold;
+      font-style: italic;
+      color: #1D9BF0;
+      flex-grow: 1;
+      max-width: 80%;
+      word-wrap: normal;      
+    }
+
+    .chat-message.ai {
+      justify-content: flex-end;
+    }
+
+    .chat-message .bot {
+      font-style: italic;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .chat-message .bot .avatar {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    .chat-message .speech-bubble {
+      background-color: #DCEAF8;
+      padding: 8px;
+      border-radius: 20px;
+      max-width: 100%;
+      word-wrap: normal;
+    }
+
+    .chat-message .user .speech-bubble {
+      align-self: flex-end;
+      background-color: #39F;
+      width: 100%;
+      white-space: nowrap;
+      overflow-wrap: normal;
+    }
+
+    .chat-message .bot .speech-bubble {
+      background-color: #DCEAF8;
+      align-self: flex-start;
+    }
+
+    /* Styles for the input form */
+    .chat-form {
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .chat-form input[type="text"] {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    .send-button {
+      border: none;
+      background-color: #1D9BF0;
+      cursor: pointer;
+      color: #FFF;
+      font-size: 18px;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .send-button::before {
+      content: "\f1d8";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+  <h1 class="title">Lässyttelijä</h1>
+
+  <div id="chat-messages" style="width: 400px;"></div> <!-- Set the width to 400px -->
+
+  <form id="form" class="chat-form" style="margin-bottom: 20px;">
+    <input type="text" id="input" name="input" placeholder="Kirjoita viestisi...">
+    <button type="submit" class="send-button"></button>
+  </form>
+
+  <script>
+    // Function to create and display a chat message
+    function createChatMessage(sender, message) {
+      const chatMessages = document.getElementById('chat-messages');
+      const chatMessage = document.createElement('div');
+      chatMessage.className = 'chat-message';
+
+      if (sender === 'AI') {
+        chatMessage.classList.add('ai'); // Add the 'ai' class
+        chatMessage.innerHTML = `
+            <span class="${sender}">
+            <div class="avatar">🤖</div>
+            </span>
+            <div class="speech-bubble">${message}</div>`;
+        } else {
+        chatMessage.innerHTML = `
+            <span class="${sender}">
+            <div class="speech-bubble user-bubble">${message}</div>
+            </span>`;
+        }
+
+      chatMessages.appendChild(chatMessage);
+      window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
+    }
+
+    // Event listener for the form submission
+    document.getElementById('form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const input = document.getElementById('input').value;
+
+      // Display user's message
+      createChatMessage('käyttäjä', input);
+
+      // Send user's message to the backend
+      fetch('http://hors.land/kek/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input: input }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Display bot's response
+          createChatMessage('AI', data.output);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+      // Clear the input field
+      document.getElementById('input').value = '';
+    });
+  </script>
+
+<footer style="margin-top: 20px; text-align: center; padding: 10px; background-color: #162D44; color: #fff;">
+    <p>© 2023 ChatKeke. All rights reserved.</p>
+  </footer>
+  
+</body>
+</html>

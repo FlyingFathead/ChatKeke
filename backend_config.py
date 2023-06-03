@@ -1,0 +1,32 @@
+model_files_dir = '/home/kahel/NeuralNetwork/vzgpt/__incheck/'
+
+"""
+Above: Set the directory path for the model's files.
+
+These files are
+===============
+model-<model checkpoint number>.data-00000-of-00001
+model-<model checkpoint number>.index
+model-<model checkpoint number>.meta
+vocab.bpe
+checkpoint
+counter
+encoder.json
+hparams.json
+"""
+
+model_py_dir = '/home/kahel/NeuralNetwork/fennoweb/model_py_files/'
+
+"""
+Above: Set the directory path for the model's python files
+
+These files are
+===============
+encoder.py
+sample.py
+model.py
+"""
+
+chat_prefix = '\n|kysymys|'
+chat_suffix = '\n|vastaus|'
+breakpoints = ['\n','|','|v','|k','|ky','|kys','|kysy', '|kysymys|', '|vastaus|', '---', '###', '|' '<|', '<|endoftext|>']  # Add any other desired breakpoints here
