@@ -1,5 +1,5 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.310 / written by FlyingFathead & ChaosWhisperer
+#  v1.311 / written by FlyingFathead & ChaosWhisperer
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -129,12 +129,12 @@ def generate_text():
 
     logging.info('Model output: %s', output_text)  # Log the model output
 
-    # Add user's input and bot's response to chat history
-    chat_history.append(chat_prefix + data['input'] + chat_suffix)
-    chat_history.append(chat_prefix + output_text + chat_suffix)
+    # Prepend chat history
+    chat_history.insert(0, chat_prefix + data['input'] + chat_suffix)
+    input_text = chat_prefix + data['input'] + chat_suffix + ''.join(chat_history)
 
     # Limit the chat history to the last n interactions
-    chat_history = chat_history[-2*context_memory_length:]
+    chat_history = chat_history[:context_memory_length]
 
     return jsonify({'output': output_text})
 
