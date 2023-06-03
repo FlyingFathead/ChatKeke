@@ -143,6 +143,36 @@
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
     }
+
+    #loading {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    }
+
+    .dot {
+    width: 8px;
+    height: 8px;
+    margin: 0 5px;
+    background-color: #1D9BF0;
+    border-radius: 50%;
+    animation: loading 1.2s infinite;
+    }
+
+    .dot:nth-child(2) {
+    animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+    animation-delay: 0.4s;
+    }
+
+    @keyframes loading {
+    0% { transform: scale(0); }
+    50% { transform: scale(1); }
+    100% { transform: scale(0); }
+    }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
@@ -150,8 +180,14 @@
 
   <h1 class="title">Lässyttelijä</h1>
 
-  <div id="chat-messages" style="width: 400px;"></div> <!-- Set the width to 400px -->
-
+  <div id="chat-messages" style="width: 400px;">
+    <div id="loading" style="display: none;">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  
   <form id="form" class="chat-form" style="margin-bottom: 20px;">
     <input type="text" id="input" name="input" placeholder="Kirjoita viestisi...">
     <button type="submit" class="send-button"></button>
@@ -160,11 +196,11 @@
   <script>
     // Function to create and display a chat message
     function createChatMessage(sender, message) {
-      const chatMessages = document.getElementById('chat-messages');
-      const chatMessage = document.createElement('div');
-      chatMessage.className = 'chat-message';
+    const chatMessages = document.getElementById('chat-messages');
+    const chatMessage = document.createElement('div');
+    chatMessage.className = 'chat-message';
 
-      if (sender === 'AI') {
+    if (sender === 'AI') {
         chatMessage.classList.add('ai'); // Add the 'ai' class
         chatMessage.innerHTML = `
             <span class="${sender}">
@@ -174,47 +210,55 @@
         } else {
         chatMessage.innerHTML = `
             <span class="${sender}">
+            <div class="avatar">&#x1F464;</div>
             <div class="speech-bubble user-bubble">${message}</div>
             </span>`;
         }
 
-      chatMessages.appendChild(chatMessage);
-      window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
+    chatMessages.appendChild(chatMessage);
+    window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
     }
 
     // Event listener for the form submission
     document.getElementById('form').addEventListener('submit', function (event) {
-      event.preventDefault();
-      const input = document.getElementById('input').value;
+  event.preventDefault();
+  const input = document.getElementById('input').value;
 
-      // Display user's message
-      createChatMessage('käyttäjä', input);
+  // Display user's message
+  createChatMessage('käyttäjä', input);
 
-      // Send user's message to the backend
-      fetch('http://hors.land/kek/api', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ input: input }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          // Display bot's response
-          createChatMessage('AI', data.output);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+  // Show loading animation
+  document.getElementById('loading').style.display = 'flex';
 
-      // Clear the input field
-      document.getElementById('input').value = '';
+  // Send user's message to the backend
+  // change your domain name below; remember to use 'https://' !!
+  fetch('https://domain.com/api', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ input: input }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Hide loading animation
+      document.getElementById('loading').style.display = 'none';
+
+      // Display bot's response
+      createChatMessage('AI', data.output);
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
+
+  // Clear the input field
+  document.getElementById('input').value = '';
+});
   </script>
 
 <footer style="margin-top: 20px; text-align: center; padding: 10px; background-color: #162D44; color: #fff;">
     <p>© 2023 ChatKeke. All rights reserved.</p>
   </footer>
-  
+
 </body>
 </html>
