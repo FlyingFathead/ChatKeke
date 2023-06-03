@@ -27,7 +27,6 @@ tf.compat.v1.disable_eager_execution()
 app = Flask(__name__)
 
 # Enable CORS for all routes
-# CORS(app, resources={r"/api/*": {"origins": ["http://hors.land", "https://hors.land"]}})
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 model_files = glob.glob(os.path.join(model_files_dir, 'model-*'))
