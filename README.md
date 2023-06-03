@@ -26,7 +26,8 @@ To deploy ChatKeke, simply clone the repository, install the required Python pac
 
 ChatKeke is open to contributions and improvements. Potential areas of development include enhancing the user interface, optimizing the backend server, and integrating with other AI models or services.
 
-- Context memory and other chat mode tweaks are still to be implemented, as well as a potential hyperparameter user panel, etc.
+- Context memory has been added but the functionality needs to be observed further.
+- Other chat mode tweaks are still to be implemented, as well as a potential hyperparameter user panel, etc.
 
 # License
 
