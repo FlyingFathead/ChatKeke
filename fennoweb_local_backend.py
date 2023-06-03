@@ -1,5 +1,5 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.305 / written by FlyingFathead & ChaosWhisperer
+#  v1.306 / written by FlyingFathead & ChaosWhisperer
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -27,6 +27,7 @@ tf.compat.v1.disable_eager_execution()
 app = Flask(__name__)
 
 # Enable CORS for all routes
+# CORS(app, resources={r"/api/*": {"origins": ["http://hors.land", "https://hors.land"]}})
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 model_files = glob.glob(os.path.join(model_files_dir, 'model-*'))
@@ -110,7 +111,7 @@ def generate_text():
 
 @app.after_request
 def after_request(response):
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # response.headers.add('Access-Control-Allow-Origin', '*') # only enable if local
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,OPTIONS')
     return response
