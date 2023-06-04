@@ -18,7 +18,25 @@ ChatKeke is a straightforward and easy-to-deploy web chat interface (front+back 
 
 # Usage
 
-To deploy ChatKeke, simply clone the repository, install the required Python packages, and run the backend server script. The frontend can be opened in any web browser and will connect to the backend server to send and receive chat messages. There are examples included on how to set up the backend either as a local or remote instance.
+To deploy ChatKeke, simply clone the repository, install the required Python packages, i.e. by using the included `requirements.txt` file:
+
+```
+pip install -r requirements.txt
+```
+
+The backend script can be run with i.e.:
+
+```
+./gunicorn_run.sh
+```
+
+... if you're using `gunicorn`; you can also run the backend directly with `python3 local_web_backend.py` or `python local_web_backend.py`; depending on how your Python 3.x is set up.
+
+In case you are operating to a remote frontend, you can set up a remote reverse SSH tunnel with `./remote_reverse_tunnel.sh` (be sure to configure it properly first!). In a local backend-remote front end-scenario, depending on your remote web server, you might also need to take a look at the `proxypasses.txt` for possible ways to set up the reverse tunnel from the remote server to your local backend.
+
+After deployment, the frontend (once it's been configured to your needs; again, look through the configuration files and source code) can be opened in any web browser and will connect to the backend server to send and receive chat messages. 
+
+In this repository, there are examples included on how to set up the backend either as a local or remote instance.
 
 **NOTE:** although quite easy and quick to deploy, ChatKeke isn't necessarily the most secure way to set up a web interface for your GPT-2 model; it's highly recommended to use this for small scale testbed purposes only. Don't run anything too serious on it! No warranty, no guarantees.
 
