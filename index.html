@@ -181,27 +181,34 @@
 </head>
 <body>
 
-  <h1 class="title">Lässyttelijä</h1>
+  <h1 class="title">ChatKeke</h1>
 
-  <div id="chat-messages" style="width: 400px;">
+  <div style="width: 400px;">
+    <div id="chat-messages">
+      <!-- Chat messages content -->
+    </div>
+  
+    <!-- Loading animation above the form -->
     <div id="loading" style="display: none;">
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>
     </div>
+  
+    <!-- Form field -->
+    <form id="form" class="chat-form" style="margin-bottom: 20px;">
+      <input type="text" id="input" name="input" placeholder="Kirjoita viestisi...">
+      <button type="submit" class="send-button"></button>
+    </form>
   </div>
-
+  
   <div id="response-loading" style="width: 400px; display: none; text-align: center; margin-bottom: 10px;">
+    <!-- Response loading animation remains unchanged -->
     <div class="dot"></div>
     <div class="dot"></div>
     <div class="dot"></div>
   </div>
   
-  <form id="form" class="chat-form" style="margin-bottom: 20px;">
-    <input type="text" id="input" name="input" placeholder="Kirjoita viestisi...">
-    <button type="submit" class="send-button"></button>
-  </form>
-
   <script>
     // Function to create and display a chat message
     function createChatMessage(sender, message) {
@@ -243,7 +250,7 @@
 
       // MODIFY YOUR OWN DOMAIN'S BACKEND ADDRESS BELOW.
       // It's always recommended to use "https://" if you've got your domain root certs.
-      fetch('https://domain.com/api', {
+      fetch('https://<yourdomainname>/api', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
