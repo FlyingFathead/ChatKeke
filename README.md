@@ -1,11 +1,14 @@
 # ChatKeke
 
 ChatKeke - a simple GPT-2 web chat interface w/ front+backend
+
 (Python+Flask+gunicorn => to any Nginx-type [micro]server setup you have)
 
 ![ChatKeke screenshot](https://github.com/FlyingFathead/ChatKeke/blob/main/chatkeke.png)
 
-ChatKeke is a straightforward and easy-to-deploy web chat interface (front+back end) for TensorFlow-based local GPT-2 models (get your base model from i.e.: https://github.com/openai/gpt-2/) 
+ChatKeke is a straightforward and easy-to-deploy web chat interface (front+back end) for TensorFlow-based local GPT-2 models from OpenAI.
+
+You can get your base model from i.e.: https://github.com/openai/gpt-2/ and start fine-tuning from that.
 
 The project is designed to provide a seamless and user-friendly way to interact with the GPT-2 model, making it a feasible choice for those looking to quickly set up a chatbot interface.
 
