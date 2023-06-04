@@ -38,7 +38,9 @@ The backend script can be run with i.e.:
 
 ... if you're using `gunicorn`; you can also run the backend directly with `python3 local_web_backend.py` or `python local_web_backend.py`; depending on how your Python 3.x is set up.
 
-In case you are operating to a remote frontend, you can set up a remote reverse SSH tunnel with `./remote_reverse_tunnel.sh` (be sure to configure it properly first!). In a local backend-remote front end-scenario, depending on your remote web server, you might also need to take a look at the `proxypasses.txt` for possible ways to set up the reverse tunnel from the remote server to your local backend.
+In case you are operating to a remote frontend, you can set up a remote reverse SSH tunnel with `./remote_reverse_tunnel.sh` (be sure to configure it properly first!).
+
+In a local backend-remote front end-scenario, depending on your remote web server, you might also need to take a look at the `proxypasses.txt` for possible ways to set up the reverse tunnel from the remote server to your local backend when using `nginx` as your web server.
 
 After deployment, the frontend (once it's been configured to your needs; again, look through the configuration files and source code) can be opened in any web browser and will connect to the backend server to send and receive chat messages. 
 
