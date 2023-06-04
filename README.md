@@ -1,6 +1,7 @@
 # ChatKeke
 
-ChatKeke - a simple GPT-2 web chat interface w/ front+backend (Python+Flask+any Nginx-type microserver setup you have)
+ChatKeke - a simple GPT-2 web chat interface w/ front+backend
+(Python+Flask+gunicorn => to any Nginx-type [micro]server setup you have)
 
 ![ChatKeke screenshot](https://github.com/FlyingFathead/ChatKeke/blob/main/chatkeke.png)
 
