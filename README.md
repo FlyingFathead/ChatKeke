@@ -61,4 +61,4 @@ ChatKeke is open-source software and is licensed under MIT.
 
 # Author
 
-ChatKeke is developed and maintained by [FlyingFathead](https://github.com/FlyingFathead). Multiple aspects have been developed in kind collaboration from ChaosWhisperer, whom I thank greatly for all the help. May the wind be on your back!
+ChatKeke is developed and maintained by [FlyingFathead](https://github.com/FlyingFathead). Multiple aspects have been developed in kind collaboration from ChaosWhisperer, whom I thank greatly for all the help with this project. _May the wind be on your back!_
