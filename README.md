@@ -2,7 +2,7 @@
 
 ChatKeke - a simple web chat interface with front+backend for local GPT-2 TensorFlow models
 
-(Python+Flask+gunicorn => to any Nginx-type [micro]server setup you have)
+ChatKeke utilizes Python+Flask (+gunicorn as a deployment option) => to any Nginx-type [micro]server setup you have).
 
 ![ChatKeke screenshot](https://github.com/FlyingFathead/ChatKeke/blob/main/chatkeke.png)
 
