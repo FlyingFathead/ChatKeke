@@ -1,4 +1,4 @@
-These are the Python module files required for handling the TensorFlow GPT-2 models.
+These are the Python module files required for handling the TensorFlow GPT-2 model that's used for ChatKeke.
 
 They're forked off of these repos:
 
