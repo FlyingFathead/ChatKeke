@@ -176,10 +176,51 @@
       100% { transform: scale(0); }
     }
 
+    .disclaimer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #808080;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    z-index: 9999;
+    font-size: 1em;
+  }
+
+  .disclaimer i {
+    margin-right: 5px;
+  }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Basic meta tags -->
+    <meta name="description" content="ChatKeke on suomea puhuva GPT-pohjainen AI-chatbot, jonka kanssa voit jauhaa turhanpäiväisistä asioista!">
+
+    <!-- Facebook / Instagram Open Graph data -->
+    <meta property="og:title" content="ChatKeke - AI Chatbot">
+    <meta property="og:description" content="ChatKeke on suomea puhuva GPT-pohjainen AI-chatbot, jonka kanssa voit jauhaa turhanpäiväisistä asioista!">
+    <meta property="og:image" content="https://raw.githubusercontent.com/FlyingFathead/ChatKeke/main/chatkeke.png">
+    <meta property="og:url" content="https://hors.land/kek">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:title" content="ChatKeke - AI Chatbot">
+    <meta name="twitter:description" content="ChatKeke on suomea puhuva GPT-pohjainen AI-chatbot, jonka kanssa voit jauhaa turhanpäiväisistä asioista!">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/FlyingFathead/ChatKeke/main/chatkeke.png">
+    <meta name="twitter:card" content="summary_large_image">
+
 </head>
 <body>
+
+  <div class="disclaimer">
+    <i class="fas fa-exclamation-triangle"></i>
+    ChatKeke on tarkoitettu vain huumorikäyttöön ja saattaa suoltaa törkyä.<br>
+    Älä usko mihinkään mitä malli sanoo, tai voisit yhtä hyvin kysyä neuvoa lyhtypylväältä.
+  </div>
 
   <h1 class="title">ChatKeke</h1>
 
@@ -253,7 +294,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
     document.getElementById('loading').style.display = 'flex';
 
     // Send user's message to the backend
-    fetch('https://<YOUR_DOMAIN_HERE>/api', {
+    fetch('https://<YOUR_DOMAIN_NAME>/api', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
