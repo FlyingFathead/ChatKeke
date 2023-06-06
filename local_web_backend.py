@@ -1,5 +1,5 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.312 / written by FlyingFathead & ChaosWhisperer
+#  v1.313 / written by FlyingFathead & ChaosWhisperer
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -72,7 +72,7 @@ with tf.Graph().as_default():
     ckpt = tf.train.latest_checkpoint(model_files_dir)
     saver.restore(sess, ckpt)
 
-chat_history = []  # Initialize chat history
+chat_history = [] # Initialize chat history
 
 @app.route('/')
 def home():
@@ -131,8 +131,7 @@ def generate_text():
         logging.info('Model output: %s', output_text)  # Log the model output
 
         # Prepend chat history
-        chat_history.insert(0, chat_prefix + data['input'] + chat_suffix)
-        input_text = chat_prefix + data['input'] + chat_suffix + ''.join(chat_history)
+        chat_history.insert(0, chat_prefix + data['input'] + chat_suffix + output_text)
 
         # Limit the chat history to the last n interactions
         chat_history = chat_history[:context_memory_length]
