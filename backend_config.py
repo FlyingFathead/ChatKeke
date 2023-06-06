@@ -38,7 +38,7 @@ chat_suffix = '\n|vastaus|'
 # maximum chat context / message history memory
 # note that the higher the count is, the more computationally intensive the model will be
 # no context memory means that the model will treat each query as a new random input
-context_memory_length = 1  # Make sure this is an integer
+context_memory_length = 4  # Make sure this is an integer
 
 # what to answer if the answer is empty
 # you can also set the model to try to regenerate an answer if it returns empty; this may increase response time
