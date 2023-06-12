@@ -30,7 +30,7 @@
       background: -webkit-linear-gradient(left, #162D44, #1D9BF0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      font-size: 5em;
+      font-size: 4em;
       font-weight: bold;
       margin-bottom: 50px;
       text-shadow: 0 0 10px #1D9BF0, 0 0 20px #1D9BF0, 0 0 30px #1D9BF0, 0 0 40px #1D9BF0;
@@ -41,7 +41,8 @@
     /* Styles for the chat container */
     .chat-container {
       padding: 10px;
-      width: 400px;
+      width: 90%;
+      max-width: 320px;
       margin: 20px auto; /* Add margin property */
       max-height: calc(100vh - 40px); /* Adjust max-height property */
       overflow-y: auto; /* Change overflow-y property to auto */
@@ -120,7 +121,7 @@
     /* Styles for the input form */
     .chat-form {
       display: flex;
-      margin-top: 10px;
+      margin-top: 10px;      
     }
 
     .chat-form input[type="text"] {
@@ -194,8 +195,14 @@
     margin-right: 5px;
   }
 
+  img, div, table {
+      max-width: 100%;
+  }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Basic meta tags -->
     <meta name="description" content="ChatKeke on suomea puhuva GPT-pohjainen AI-chatbot, jonka kanssa voit jauhaa turhanpäiväisistä asioista!">
@@ -224,7 +231,7 @@
 
   <h1 class="title">ChatKeke</h1>
 
-  <div style="width: 400px;">
+  <div style="width: 300px;">
     <div id="chat-messages">
       <!-- Chat messages content -->
     </div>
@@ -243,7 +250,7 @@
     </form>
   </div>
   
-  <div id="response-loading" style="width: 400px; display: none; text-align: center; margin-bottom: 10px;">
+  <div id="response-loading" style="width: 320x; display: none; text-align: center; margin-bottom: 10px;">
     <!-- Response loading animation remains unchanged -->
     <div class="dot"></div>
     <div class="dot"></div>
@@ -294,7 +301,7 @@ document.getElementById('form').addEventListener('submit', function (event) {
     document.getElementById('loading').style.display = 'flex';
 
     // Send user's message to the backend
-    fetch('https://<YOUR_DOMAIN_NAME>/api', {
+    fetch('https://<YOUR_DOMAIN>/api', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
