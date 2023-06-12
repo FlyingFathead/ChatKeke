@@ -1,5 +1,6 @@
 #  Local Backend (Python Flask + TensorFlow)
-#  v1.313 / written by FlyingFathead & ChaosWhisperer
+#  v1.315 / written by FlyingFathead & ChaosWhisperer
+# (changes: parsing to lowercase on input)
 
 from flask import Flask, request, jsonify
 from flask import send_from_directory
@@ -106,6 +107,9 @@ def generate_text():
         global chat_history  # Add this line to access the global chat history variable
         data = request.get_json()
         input_text = chat_prefix + data['input'] + chat_suffix
+
+        # Convert input text to lower case
+        input_text = input_text.lower()
 
         # Prepend chat history
         for history in chat_history:
