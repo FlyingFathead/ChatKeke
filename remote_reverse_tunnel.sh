@@ -11,7 +11,8 @@ ssh -vvv -N -R 8080:localhost:4949 "$remote_username"@"$remote_hostname"
 
 function tunnel_disallow() {
 # this only allows access from within the remote server
-ssh -vvv -N -R 127.0.0.1:8080:localhost:4949 "$remote_username"@"$remote_hostname"
+# you could use `127.0.0.1` instead if `0.0.0.0` doesn't work for you
+ssh -vvv -N -R 0.0.0.0:8080:localhost:4949 "$remote_username"@"$remote_hostname"
 }
 
 # tunnel_allow
