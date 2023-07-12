@@ -2,6 +2,24 @@
 <html>
 <head>
   <style>
+
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      min-height: 100%;
+    }
+
+    /* disclaimer width on mobile devices */
+    @media (max-width: 480px) {
+      .disclaimer .content {
+        font-size: 0.8em; /* Adjust as needed */
+      }
+    }
+
+
     /* Styles for the page */
     body {
       background-color: #162D44;
@@ -10,7 +28,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      height: auto;
       margin: 0;
       background: linear-gradient(to right, #162D44, #1D9BF0);
       font-family: 'Arial', sans-serif;
@@ -42,7 +60,7 @@
     .chat-container {
       padding: 10px;
       width: 90%;
-      max-width: 298px;
+      max-width: 100%;
       margin: 20px auto; /* Add margin property */
       max-height: calc(100vh - 40px); /* Adjust max-height property */
       overflow-y: auto; /* Change overflow-y property to auto */
@@ -178,22 +196,33 @@
     }
 
     .disclaimer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #808080;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-    width: 100%;
-    z-index: 9999;
-    font-size: 1em;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #808080;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 9999;
+  font-size: 1em;
+  display: flex;
+  justify-content: center;
+}
 
-  .disclaimer i {
-    margin-right: 5px;
-  }
+.disclaimer .content {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-left: auto; /* Add this line */
+  margin-right: auto; /* Add this line */
+  max-width: 90%; /* Add this line */
+}
+
+.disclaimer i {
+  margin-right: 5px;
+}
 
   img, div, table {
       max-width: 100%;
@@ -220,18 +249,22 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/FlyingFathead/ChatKeke/main/chatkeke.png">
     <meta name="twitter:card" content="summary_large_image">
 
+    <title>ChatKeke - Suomea puhuva GPT-AI Chatbot</title>
+
 </head>
 <body>
 
   <div class="disclaimer">
-    <i class="fas fa-exclamation-triangle"></i>
-    ChatKeke on tarkoitettu vain huumorikäyttöön ja saattaa suoltaa törkyä.<br>
-    Älä usko mihinkään mitä malli sanoo, tai voisit yhtä hyvin kysyä neuvoa lyhtypylväältä.
-  </div>
-
+    <div class="content">
+      <i class="fas fa-exclamation-triangle"></i>
+      ChatKeke on tarkoitettu vain huumorikäyttöön ja saattaa suoltaa törkyä.<br>
+      Älä usko mihinkään mitä malli sanoo, tai voisit yhtä hyvin kysyä neuvoa lyhtypylväältä.
+    </div>
+  </div>  
+  
   <h1 class="title">ChatKeke</h1>
 
-  <div style="width: 299px;">
+  <div style="width: 100%; max-width: 299px;">
     <div id="chat-messages">
       <!-- Chat messages content -->
     </div>
@@ -263,7 +296,7 @@
       const chatMessages = document.getElementById('chat-messages');
       const chatMessage = document.createElement('div');
       chatMessage.className = 'chat-message';
-
+  
       if (sender === 'AI') {
         chatMessage.classList.add('ai'); // Add the 'ai' class
         chatMessage.innerHTML = `
@@ -278,68 +311,88 @@
             <div class="speech-bubble user-bubble">${message}</div>
           </span>`;
       }
-
+  
       chatMessages.appendChild(chatMessage);
       window.scrollTo(0, document.body.scrollHeight); // Scroll to the bottom of the page
     }
-
-// Event listener for the form submission
-document.getElementById('form').addEventListener('submit', function (event) {
-  event.preventDefault();
-  const inputField = document.getElementById('input');
-  const input = inputField.value.trim(); // trim leading and trailing white spaces
-
-  // Check if the input is not empty
-  if (input !== '') {
-    // Disable the input field
-    inputField.disabled = true;
-
-    // Display user's message
-    createChatMessage('käyttäjä', input);
-
-    // Show loading animation
-    document.getElementById('loading').style.display = 'flex';
-
-    // Send user's message to the backend
-    fetch('https://<DOMAIN_NAME>/api', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ input: input }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Hide loading animation
-        document.getElementById('loading').style.display = 'none';
-
-        // Show response loading text
-        document.getElementById('response-loading').style.display = 'block';
-
-        // Delay displaying bot's response for demonstration purposes
-        setTimeout(() => {
-          // Hide response loading text
-          document.getElementById('response-loading').style.display = 'none';
-
-          // Display bot's response
-          createChatMessage('AI', data.output);
-
-          // Enable the input field
-          inputField.disabled = false;
-        }, 1500);
+  
+    // Function to process a chat message
+    function processMessage(inputField, input) {
+      // Disable the input field
+      inputField.disabled = true;
+  
+      // Display user's message
+      createChatMessage('käyttäjä', input);
+  
+      // Show loading animation
+      document.getElementById('loading').style.display = 'flex';
+  
+      // Send user's message to the backend
+      // NOTE: replace this with your domain name! \/
+      fetch('https://<YOUR_DOMAIN_NAME>/api', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input: input }),
       })
-      .catch(error => {
-        console.error('Error:', error);
-
-        // Enable the input field in case of error
-        inputField.disabled = false;
-      });
-
-    // Clear the input field
-    inputField.value = '';
-  }
-});
-</script>
+        .then(response => response.json())
+        .then(data => {
+          // Hide loading animation
+          document.getElementById('loading').style.display = 'none';
+  
+          // Show response loading text
+          document.getElementById('response-loading').style.display = 'block';
+  
+          // Delay displaying bot's response for demonstration purposes
+          setTimeout(() => {
+            // Hide response loading text
+            document.getElementById('response-loading').style.display = 'none';
+  
+            // Display bot's response
+            createChatMessage('AI', data.output);
+  
+            // Enable the input field
+            inputField.disabled = false;
+          }, 1500);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+  
+          // Enable the input field in case of error
+          inputField.disabled = false;
+        });
+  
+      // Clear the input field
+      inputField.value = '';
+    }
+  
+    // Event listener for the form submission
+    document.getElementById('form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const inputField = document.getElementById('input');
+      const input = inputField.value.trim(); // trim leading and trailing white spaces
+  
+      // Check if the input is not empty
+      if (input !== '') {
+        processMessage(inputField, input);
+      }
+    });
+  
+    // Event listener for the 'Enter' keypress in the input field
+    document.getElementById('input').addEventListener('keypress', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const inputField = document.getElementById('input');
+        const input = inputField.value.trim(); // trim leading and trailing white spaces
+  
+        // Check if the input is not empty
+        if (input !== '') {
+          processMessage(inputField, input);
+        }
+      }
+    });
+  </script>  
 
   <footer style="margin-top: 20px; text-align: center; padding: 10px; background-color: #162D44; color: #fff;">
     <p>© 2023 ChatKeke. All rights reserved.</p>
