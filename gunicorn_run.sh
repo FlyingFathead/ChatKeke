@@ -1,6 +1,9 @@
 # requires gunicorn; install it with:
 # pip install -U gunicorn
 
+# recommended to use `firejail`
+# install it with i.e. `sudo apt-get install firejail`
+
 export backend_dir="./"
 
 # run in loop w/ firejail
