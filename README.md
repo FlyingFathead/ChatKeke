@@ -1,5 +1,7 @@
 # ChatKeke
 
+Note: if you're looking for the current, OpenAI API-utilizing web version implementation of ChatKeke, please visit [chatkeke.fi](https://chatkeke.fi) (available inside Finland only)
+
 ### ChatKeke is a simple web chat interface with a local backend for GPT-2 models running on TensorFlow
 
 ChatKeke utilizes Python+Flask (+ i.e. `gunicorn` + `nginx` as a deployment option)
